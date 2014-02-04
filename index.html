@@ -1,6 +1,16 @@
 <!doctype html>
-<html ng-app="plunker">
+<html xmlns:ng="http://angularjs.org" id=ng-app" ng-app="plunker">
 <head>
+    <!--[if lte IE 8]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20130526/json2.js"></script>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('bookviewer');
+        document.createElement('accordion');
+        document.createElement('accordion-group');
+        document.createElement('accordion-heading');
+    </script>
+    <![endif]-->
     <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
