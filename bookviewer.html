@@ -1,6 +1,6 @@
 <script id="curChapterIndexTmpl.html" type="text/ng-template">
     <li><a ng-click="navigate(paragraph.Id)" href="javascript:void(0)">{{paragraph.Title}}</a></li>
-    <ng-include ng-repeat="paragraph in paragraph.Paragraphs" src="'curChapterIndexTmpl.html'" />
+    <ng-include ng-repeat="paragraph in paragraph.Paragraphs" src="'curChapterIndexTmpl.html'"></ng-include>
 </script>
 
 <script id="otherChapterIndexTmpl.html" type="text/ng-template">
@@ -11,14 +11,14 @@
     <a class="anchor" id="{{paragraph.Id}}"></a>
     <h4>{{paragraph.Title}}</h4>
     <div class="paragraph-text" ng-bind-html="trustAsHtml(paragraph.Content)"></div>
-    <ng-include ng-repeat="paragraph in paragraph.Paragraphs" src="'paragraphTmpl.html'">
+    <ng-include ng-repeat="paragraph in paragraph.Paragraphs" src="'paragraphTmpl.html'"></ng-include>
 </script>
 
 <div class="bookchapter" ng-hide="indexmode">
     <a class="anchor" id="{{chaptercontent.Id}}"></a>
     <h3>{{chaptercontent.Title}}</h3>
     <div class="chapter-text" ng-bind-html="trustAsHtml(chaptercontent.Content)"></div>
-    <ng-include ng-repeat="paragraph in chaptercontent.Paragraphs" src="'paragraphTmpl.html'"/>
+    <ng-include ng-repeat="paragraph in chaptercontent.Paragraphs" src="'paragraphTmpl.html'"></ng-include>
 </div>
 
 <div id="bookindex" ng-show="indexmode">
@@ -26,16 +26,16 @@
 
     <accordion close-others="true">
         <accordion-group ng-repeat="tocChapter in booktoc.Chapters" is-open="indexOpenChapterIndex('i-' + tocChapter.Id)">
-            <a class="anchor" id="i-{{tocChapter.Id}}" />
+            <a class="anchor" id="i-{{tocChapter.Id}}"></a>
             <accordion-heading>
-                <a ng-bind="tocChapter.Title" ng-click="navigate(tocChapter.Id)" href="javascript:void(0)"/>
+                <a ng-click="navigate(tocChapter.Id)" href="javascript:void(0)">{{tocChapter.Title}}</a>
                 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
             </accordion-heading>
             <ul ng-if="tocChapter.Id === $parent.chaptercontent.Id">
-                <ng-include ng-repeat="paragraph in $parent.chaptercontent.Paragraphs" src="'curChapterIndexTmpl.html'" />
+                <ng-include ng-repeat="paragraph in $parent.chaptercontent.Paragraphs" src="'curChapterIndexTmpl.html'"></ng-include>
             </ul>
             <ul ng-if="tocChapter.Id !== $parent.chaptercontent.Id">
-                <ng-include ng-repeat="paragraph in tocChapter.Paragraphs" src="'otherChapterIndexTmpl.html'" />
+                <ng-include ng-repeat="paragraph in tocChapter.Paragraphs" src="'otherChapterIndexTmpl.html'"></ng-include>
             </ul>
         </accordion-group>
     </accordion>

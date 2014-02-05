@@ -62,7 +62,7 @@ var samplebook = {
         {
             "Id": "SampleId1",
             "Title": "1. Sample chapter one",
-            "Content": "<p>1. Sample chapter one<ul><li>blaat</li><li>troep</li></ul></p>",
+            "Content": "<p>1. Sample chapter one<ul><li>alpha</li><li>beta</li></ul></p>",
             "Paragraphs": [
                 { "Id": "SampleId1.1", "Title": "1.1 First sample paragraph", "Content": lorumIpsumText, "Paragraphs": [] },
                 { "Id": "SampleId1.2", "Title": "1.2 Second sample paragraph", "Content": lorumIpsumText, "Paragraphs": [] },
