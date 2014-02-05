@@ -17,7 +17,7 @@ var sampletoc = {
     "Chapters": [
         {
             "Id": "SampleId1",
-            "Title": "1. Sample chapter one",
+            "Title": "<p>1. Sample chapter one<ul><li>blaat</li><li>troep</li></ul></p>",
             "Paragraphs": [
                 { "Id": "SampleId1.1", "Title": "1.1 First sample paragraph", "Paragraphs": [] },
                 { "Id": "SampleId1.2", "Title": "1.2 Second sample paragraph", "Paragraphs": [] },
@@ -62,7 +62,7 @@ var samplebook = {
         {
             "Id": "SampleId1",
             "Title": "1. Sample chapter one",
-            "Content": "This is the content of sample chapter 1.",
+            "Content": "<p>1. Sample chapter one<ul><li>blaat</li><li>troep</li></ul></p>",
             "Paragraphs": [
                 { "Id": "SampleId1.1", "Title": "1.1 First sample paragraph", "Content": lorumIpsumText, "Paragraphs": [] },
                 { "Id": "SampleId1.2", "Title": "1.2 Second sample paragraph", "Content": lorumIpsumText, "Paragraphs": [] },

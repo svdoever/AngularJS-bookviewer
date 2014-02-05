@@ -9,15 +9,15 @@
 
 <script id="paragraphTmpl.html" type="text/ng-template">
     <a class="anchor" id="{{paragraph.Id}}"></a>
-    <h4 ng-bind="paragraph.Title" />
+    <h4>{{paragraph.Title}}</h4>
     <div class="paragraph-text" ng-bind-html="trustAsHtml(paragraph.Content)"></div>
     <ng-include ng-repeat="paragraph in paragraph.Paragraphs" src="'paragraphTmpl.html'">
 </script>
 
 <div class="bookchapter" ng-hide="indexmode">
     <a class="anchor" id="{{chaptercontent.Id}}"></a>
-    <h3 ng-bind="chaptercontent.Title" />
-    <div class="chapter-text" ng-bind-html="trustAsHtml(chaptercontent.Content)"/>
+    <h3>{{chaptercontent.Title}}</h3>
+    <div class="chapter-text" ng-bind-html="trustAsHtml(chaptercontent.Content)"></div>
     <ng-include ng-repeat="paragraph in chaptercontent.Paragraphs" src="'paragraphTmpl.html'"/>
 </div>
 
@@ -25,11 +25,10 @@
     <h1>Book index</h1>
 
     <accordion close-others="true">
-<!--        <accordion-group ng-repeat="tocChapter in booktoc.Chapters" is-open="tocChapter.Id === $parent.chaptercontent.Id"> -->
         <accordion-group ng-repeat="tocChapter in booktoc.Chapters" is-open="indexOpenChapterIndex('i-' + tocChapter.Id)">
             <a class="anchor" id="i-{{tocChapter.Id}}" />
             <accordion-heading>
-                <a ng-bind="tocChapter.Title" ng-click="navigate(tocChapter.Id) href="javascript:void(0)"/>
+                <a ng-bind="tocChapter.Title" ng-click="navigate(tocChapter.Id)" href="javascript:void(0)"/>
                 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
             </accordion-heading>
             <ul ng-if="tocChapter.Id === $parent.chaptercontent.Id">

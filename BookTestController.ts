@@ -12,7 +12,7 @@ var sampletoc = <IBookViewerBookToc>{
     "Year":2014,
     "Name":"Sample book",
     "Chapters":[
-        { "Id":"SampleId1", "Title":"1. Sample chapter one",
+        { "Id":"SampleId1", "Title":"<p>1. Sample chapter one<ul><li>blaat</li><li>troep</li></ul></p>",
             "Paragraphs":[
                 {"Id":"SampleId1.1", "Title":"1.1 First sample paragraph", "Paragraphs":[]},
                 {"Id":"SampleId1.2", "Title":"1.2 Second sample paragraph", "Paragraphs":[]},
@@ -52,7 +52,7 @@ var samplebook = <IBookViewerBook>{
     "Year":2014,
     "Name":"Sample book",
     "Chapters":[
-        { "Id":"SampleId1","Title":"1. Sample chapter one","Content":"This is the content of sample chapter 1.",
+        { "Id":"SampleId1","Title":"1. Sample chapter one","Content":"<p>1. Sample chapter one<ul><li>blaat</li><li>troep</li></ul></p>",
             "Paragraphs":[
                 {"Id":"SampleId1.1", "Title":"1.1 First sample paragraph", "Content":lorumIpsumText, "Paragraphs":[]},
                 {"Id":"SampleId1.2", "Title":"1.2 Second sample paragraph", "Content":lorumIpsumText, "Paragraphs":[]},
@@ -123,33 +123,4 @@ class BookController implements IBookController {
 
         $scope.vm = this;
     }
-
-    /*
-    id2chapter(chapters: IBookViewerChapterToc[], id: string) : IBookViewerChapterToc
-    {
-        var numberOfChapters: number = chapters.length;
-        var i: number;
-        for (i=0; i<numberOfChapters; i++) { if (chapters[i].Id === id) { return chapters[i]; } }
-        for (i=0; i<numberOfChapters; i++) { if (this.paragraphsContainId(chapters[i].Paragraphs, id)) { return chapters[i]; } }
-        return null;
-    }
-
-    paragraphsContainId(paragraphs: IBookViewerParagraphToc[], id: string) : boolean
-    {
-        var numberOfParagraphs: number = paragraphs.length;
-
-        for (var i:number=0; i<numberOfParagraphs; i++)
-        {
-            if (paragraphs[i].Id === id)
-            {
-                return true;
-            }
-            if (this.paragraphsContainId(paragraphs[i].Paragraphs, id))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    */
 }

@@ -114,38 +114,34 @@ angular.module('directive.bookviewer', []).constant('bookviewerConfig', {}).cont
                     throw ("Directive 'bookviewer': offset in offset-height attribute is not valid: " + $scope.offsetHeight);
                 }
             } else if (angular.isDefined($scope.savedAttrs.offsetElementId)) {
-                var el = angular.element('#' + $scope.offsetElementId);
-                if (el.length == 0) {
+                var el = document.getElementById($scope.offsetElementId);
+                if (!el) {
                     throw ("Directive 'bookviewer': element with id in offset-element-id attribute is not found valid: " + $scope.offsetElementId);
                 }
-                if (el.length > 1) {
-                    throw ("Directive 'bookviewer': element with id in offset-element-id attribute resolves to multiple elements: " + $scope.offsetElementId);
-                }
 
-                offset = (-1 * el.outerHeight()).toString() + "px";
+                offset = (-1 * el.offsetHeight).toString() + "px";
             }
 
-            // offset = 0; //TODO: for now, no offset
-            var anchorsInChapter = $scope.savedElement.find('a.anchor');
-            anchorsInChapter.css({
-                display: "block",
-                position: "relative",
-                top: offset
-            });
-
-            // modify 'a' tags with only data-ref to contain onclick event
-            //var elements = getAllAnchorElementsWithAttributeDataHref($scope.savedElement[0]);
-            var elements = $scope.savedElement.find('a[data-ref]');
-            $log.debug("Directive 'bookviewer': found " + elements.length + " anchors with data-ref attributes");
-            angular.forEach(elements, function (el) {
+            // modify 'a' tags with data-ref to contain onclick event and a no-op href
+            angular.forEach($scope.savedElement[0].getElementsByTagName('a'), function (el) {
                 var $element = angular.element(el);
+
                 var dataref = $element.attr('data-ref');
                 if (dataref) {
+                    $log.debug("Directive 'bookviewer': found anchor with data-ref attribute");
                     $element.attr('href', 'javascript:void(0)');
 
                     // return false, otherwise after click event the page navigates to '#'
                     $element.bind('click', function (event) {
                         $scope.navigate(dataref);
+                    });
+                }
+
+                if (offset !== '0px' && $element.hasClass('anchor')) {
+                    $element.css({
+                        display: "block",
+                        position: "relative",
+                        top: offset
                     });
                 }
             });
@@ -208,9 +204,13 @@ angular.module('directive.bookviewer', []).constant('bookviewerConfig', {}).cont
                     $scope.processDom();
 
                     if (angular.isDefined($scope.savedAttrs.anchorid)) {
-                        $scope.navigateToAnchor($scope.anchorid, $scope.anchorid.substr(0, 2) === "i-");
+                        if ($scope.anchorid && $scope.anchorid.length > 2) {
+                            $scope.navigateToAnchor($scope.anchorid, $scope.anchorid.substr(0, 2) === "i-");
+                        }
                     } else {
-                        $scope.navigateToAnchor($scope.chaptercontent.Id, false);
+                        if ($scope.chaptercontent) {
+                            $scope.navigateToAnchor($scope.chaptercontent.Id, false);
+                        }
                     }
                 }, 0);
             }

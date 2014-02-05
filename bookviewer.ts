@@ -11,9 +11,10 @@ angular.module('directive.bookviewer', [])
         $scope.savedElement = $element; // keep track of element for usage in later code
         $scope.savedAttrs = $attrs;  // keep track of attributes for usage in later code
 
-        $scope.trustAsHtml = (html) => {
+        $scope.trustAsHtml = (html:string) : any => {
             return $sce.trustAsHtml(html);
         };
+
 
         $scope.indexOpenChapterIndex = (chapterIndexId:string) => {
             var hashId = $location.hash();
@@ -111,43 +112,39 @@ angular.module('directive.bookviewer', [])
                 }
             }
             else if (angular.isDefined($scope.savedAttrs.offsetElementId)) {
-                var el = angular.element('#' + $scope.offsetElementId);
-                if (el.length == 0) {
+                var el:HTMLElement = document.getElementById($scope.offsetElementId);
+                if (!el) {
                     throw("Directive 'bookviewer': element with id in offset-element-id attribute is not found valid: " + $scope.offsetElementId);
                 }
-                if (el.length > 1) {
-                    throw("Directive 'bookviewer': element with id in offset-element-id attribute resolves to multiple elements: " + $scope.offsetElementId);
-                }
 
-                offset = (-1 * el.outerHeight()).toString() + "px";
+                offset = (-1 * el.offsetHeight).toString() + "px";
             }
 
-            // offset = 0; //TODO: for now, no offset
-            var anchorsInChapter = $scope.savedElement.find('a.anchor');
-            anchorsInChapter.css({
-                display: "block",
-                position: "relative",
-                top: offset
-            });
-
-            // modify 'a' tags with only data-ref to contain onclick event
-            //var elements = getAllAnchorElementsWithAttributeDataHref($scope.savedElement[0]);
-            var elements = $scope.savedElement.find('a[data-ref]');
-            $log.debug("Directive 'bookviewer': found " + elements.length + " anchors with data-ref attributes");
-            angular.forEach(elements, (el) => {
+            // modify 'a' tags with data-ref to contain onclick event and a no-op href
+            angular.forEach($scope.savedElement[0].getElementsByTagName('a'), (el:HTMLAnchorElement) => {
                 var $element = angular.element(el);
-                var dataref = $element.attr('data-ref');
+
+                var dataref:string = $element.attr('data-ref');
                 if (dataref)
                 {
+                    $log.debug("Directive 'bookviewer': found anchor with data-ref attribute");
                     $element.attr('href', 'javascript:void(0)');
                     // return false, otherwise after click event the page navigates to '#'
                     $element.bind('click', (event) => {
                         $scope.navigate(dataref);
                     });
                 }
+
+                // if its an anchor element and offset is not 0px, give the element a negative offset to compensate for fixed bar at top
+                if (offset !== '0px' && $element.hasClass('anchor')) {
+                    $element.css({
+                        display: "block",
+                        position: "relative",
+                        top: offset
+                    });
+                }
             });
         }
-
 
         $scope.$watch('indexmode', (newValue, oldValue) => {
             $log.debug("Directive 'bookviewer': indexmode changed to " + newValue);
@@ -212,9 +209,13 @@ angular.module('directive.bookviewer', [])
 
                     // navigate to anchor if specified in the anchorid attribute, otherwise navigate to beginning of chapter
                     if (angular.isDefined($scope.savedAttrs.anchorid)) {
-                        $scope.navigateToAnchor($scope.anchorid, $scope.anchorid.substr(0,2) === "i-");
+                        if ($scope.anchorid && $scope.anchorid.length > 2) {
+                            $scope.navigateToAnchor($scope.anchorid, $scope.anchorid.substr(0,2) === "i-");
+                        }
                     } else {
-                        $scope.navigateToAnchor($scope.chaptercontent.Id, false);
+                        if ($scope.chaptercontent) {
+                            $scope.navigateToAnchor($scope.chaptercontent.Id, false);
+                        }
                     }
                 }, 0);
             }
@@ -268,7 +269,7 @@ interface IBookViewerScope extends ng.IScope {
     savedAttrs: any;
 
     // methods on scope
-    trustAsHtml: (html:string) => string;
+    trustAsHtml: (html:string) => any; // return a TrustedValueHolderType, not defined in angularjs.d.ts
     indexOpenChapterIndex: (chapterid:string) => boolean;
     id2chapter: (chapters: IBookViewerChapterToc[], id: string) => IBookViewerChapterToc;
     processDom: () => void;
