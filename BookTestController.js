@@ -17,7 +17,7 @@ var sampletoc = {
     "Chapters": [
         {
             "Id": "SampleId1",
-            "Title": "<p>1. Sample chapter one<ul><li>blaat</li><li>troep</li></ul></p>",
+            "Title": "1. Sample chapter one",
             "Paragraphs": [
                 { "Id": "SampleId1.1", "Title": "1.1 First sample paragraph", "Paragraphs": [] },
                 { "Id": "SampleId1.2", "Title": "1.2 Second sample paragraph", "Paragraphs": [] },
