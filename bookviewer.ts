@@ -15,7 +15,6 @@ angular.module('directive.bookviewer', [])
             return $sce.trustAsHtml(html);
         };
 
-
         $scope.indexOpenChapterIndex = (chapterIndexId:string) => {
             var hashId = $location.hash();
             $log.info("indexOpenChapterIndex: test hash=" + hashId + ", chapter id=" +chapterIndexId + "==> return=" + (hashId === chapterIndexId));
@@ -67,37 +66,7 @@ angular.module('directive.bookviewer', [])
             }, 0);
         }
 
-
-          // Link within the chapter selected, scroll to it
-          $scope.navigateBookOld = (id: string): void => {
-              var chapterToNavigateTo = $scope.id2chapter($scope.booktoc.Chapters, id);
-              if (chapterToNavigateTo == null) {
-                  $log.error("Directive 'bookviewer':navigateBook: the id '" + id + "' is not found in the book table of contents (booktoc). Can't navigate.")
-                  return;
-              }
-
-              if (chapterToNavigateTo.Id === $scope.chaptercontent.Id) {
-                  // within this chapter
-                  $log.debug("Directive 'bookviewer':navigateBook: navigate to id '" + id + "' within this chapter");
-                  $scope.indexmode = false; // show the chapter contents (again?)
-                  $location.hash(id);
-                  $anchorScroll();
-                  $log.debug("-------- Directive bookviewer: hash set and scroll processed. Current hash: " + $location.hash() + " -------");
-              }
-              else {
-                  $log.debug("Directive 'bookviewer':navigateBook: navigate to id '" + id +"' in chapter with id '" + id + "'");
-                  if (angular.isDefined($scope.savedAttrs.onNavigate))
-                  {
-                      $log.debug("Directive 'bookviewer':on-navigate: chapterid=" + chapterToNavigateTo.Id + ", anchorid=" + id);
-                      $scope.onNavigate(<IOnNavigateArguments>{ chapterid: chapterToNavigateTo.Id, anchorid: id });
-                  }
-                  else {
-                      $log.error("Directive 'bookviewer':navigateBook: no 'on-navigate' attribute specified. Can't navigate to other chapters.");
-                  }
-              }
-          }
-
-          // jump to anchor element using its offset does not work in attached() callback, only in compositionComplete() callback.
+        // jump to anchor element using its offset does not work in attached() callback, only in compositionComplete() callback.
         // See documentation at http://durandaljs.com/documentation/Interacting-with-the-DOM/: "If you need to measure DOM elements, this is the place to do it."
 
         $scope.processDom = () => {
