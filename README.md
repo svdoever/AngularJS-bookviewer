@@ -11,3 +11,5 @@ Content is always viewed on chapter level.
 
 There is support to navigate within the book with links.
 There is support for an index view on chapters and their paragraphs.
+
+See it running at http://svdoever.github.io/AngularJS-bookviewer
